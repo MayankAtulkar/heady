@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.heady.bean.EcommResponse;
+import com.heady.db.DatabaseHandler;
 import com.heady.network.RetrofitInterface;
 
 import javax.inject.Inject;
@@ -27,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     RetrofitInterface mRetrofitInterface;
     private String ecomm;
+    private DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbHandler = DatabaseHandler.getInstance(MyApplication.getInstance());
         final TextView textView = findViewById(R.id.target);
         Button btn_target = findViewById(R.id.btn_target);
         ((MyApplication) getApplication()).getEcommComponent().inject(this);
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<EcommResponse> call, Response<EcommResponse> response) {
                         //                if (response.isSuccess()) {
                         ecomm = new Gson().toJson(response);
+                        dbHandler.insert_into_product(response.body().getCategories());
                         Log.i("DEBUG", ecomm);
 //                        Toast.makeText(MainActivity.this, new Gson().toJson(response), Toast.LENGTH_SHORT).show();
                         textView.setText("Response: " + ecomm);

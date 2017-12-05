@@ -9,4 +9,20 @@ import java.util.ArrayList;
 public class EcommResponse {
     ArrayList<Category> categories;
     ArrayList<Rankings> rankings;
+
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<Category> categories) {
+        this.categories = categories;
+    }
+
+    public ArrayList<Rankings> getRankings() {
+        return rankings;
+    }
+
+    public void setRankings(ArrayList<Rankings> rankings) {
+        this.rankings = rankings;
+    }
 }
