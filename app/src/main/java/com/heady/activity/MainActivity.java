@@ -91,8 +91,14 @@ public class MainActivity extends AppCompatActivity {
 
         ((MyApplication) getApplication()).getEcommComponent().inject(this);
 
-        fillDatabase();
-
+        categories = dbHandler.getAllCategories();
+        if (categories.size() == 0) {
+            fillDatabase();
+        } else {
+            iv_most_viewed.setFocusable(true);
+            showCategories();
+            setNavigationDrawer();
+        }
         iv_most_viewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<EcommResponse>() {
             @Override
             public void onResponse(Call<EcommResponse> call, Response<EcommResponse> response) {
-                //                if (response.isSuccess()) {
                 ecomm = new Gson().toJson(response);
 //                dbHandler.deleteall();
+                avi.smoothToHide();
                 dbHandler.insert_into_product(response.body().getCategories());
                 dbHandler.update_most_viewed(response.body().getRankings().get(0).getProducts());
                 dbHandler.update_most_ordered(response.body().getRankings().get(1).getProducts());
@@ -131,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("DEBUG", ecomm);
 //                Toast.makeText(MainActivity.this, new Gson().toJson(response), Toast.LENGTH_SHORT).show();
 //                textView.setText("Response: " + ecomm);
-                avi.smoothToHide();
                 showCategories();
                 setNavigationDrawer();
 
