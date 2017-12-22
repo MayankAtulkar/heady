@@ -11,8 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:showDividers="middle"
-        android:weightSum="100">
+        android:showDividers="middle">
+
+        <RelativeLayout
+            android:id="@+id/rl_header"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/tv_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Heady"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:textStyle="italic" />
+
+        </RelativeLayout>
 
 
         <android.support.v7.widget.RecyclerView
@@ -20,6 +37,7 @@
             class="android.support.v7.widget.RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_header"
             android:layout_centerInParent="true"
             android:nestedScrollingEnabled="false" />
 

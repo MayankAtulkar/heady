@@ -1,6 +1,7 @@
 package com.heady.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,10 +87,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Da
 
         holder.img_category.setImageResource(id);
 
-        holder.img_category.setOnClickListener(new View.OnClickListener() {
+        holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myClickListener.onCategoryClick(position, mDataset.get(position).getId());
+                myClickListener.onCategoryClick(position, mDataset.get(position).getId(), mDataset.get(position).getName());
             }
         });
     }
@@ -105,17 +106,19 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Da
     }
 
     public interface MyClickListener {
-        void onCategoryClick(int position, int id);
+        void onCategoryClick(int position, int id, String name);
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
         TextView tv_category_name;
         ImageView img_category;
+        CardView card_view;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             tv_category_name = itemView.findViewById(R.id.tv_category_name);
             img_category = itemView.findViewById(R.id.img_category);
+            card_view = itemView.findViewById(R.id.card_view);
         }
     }
 

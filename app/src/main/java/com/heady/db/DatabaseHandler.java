@@ -12,6 +12,7 @@ import com.heady.activity.MyApplication;
 import com.heady.bean.Category;
 import com.heady.bean.Product;
 import com.heady.bean.Tax;
+import com.heady.bean.Variant;
 import com.heady.utils.Constants;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String HEADY_TAX_VALUE = "tax_value";
     public static final String HEADY_VARIENT_ID = "varient_id";
     public static final String HEADY_CATEGORY_ID = "category_id";
+    public static final String HEADY_PRODUCT_ID = "product_id";
     public static final String HEADY_COLOR = "color";
     public static final String HEADY_SIZE = "size";
     public static final String HEADY_PRICE = "price";
@@ -320,6 +322,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             categoryValues.put("shares", responseData.get(i).getShares());
             long c = db.updateWithOnConflict(HEADY_PRODUCT_TABLE, categoryValues, "_id" + " = " + responseData.get(i).getId(), null, SQLiteDatabase.CONFLICT_IGNORE);
         }
+    }
+
+    public ArrayList<Variant> getAllVariants(int productId) {
+        ArrayList<Variant> variants = new ArrayList<>();
+        Variant model;
+        String numQuery = "SELECT *  FROM " + HEADY_VARIENT_TABLE + " WHERE " + HEADY_PRODUCT_ID + " = " + productId + ";";
+        Log.i("TAG query ", numQuery + "");
+        Cursor cursor = db.rawQuery(numQuery, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    model = new Variant();
+                    model.setId(Integer.valueOf(cursor.getString(cursor.getColumnIndex(HEADY_ID))));
+                    model.setColor(cursor.getString(cursor.getColumnIndex(HEADY_COLOR)));
+                    model.setSize(Integer.valueOf(cursor.getString(cursor.getColumnIndex(HEADY_SIZE))));
+                    model.setPrice(Integer.valueOf(cursor.getString(cursor.getColumnIndex(HEADY_PRICE))));
+                    Log.i("TAG query ", cursor.getString(cursor.getColumnIndex(HEADY_COLOR)) + "");
+                    variants.add(model);
+                    cursor.moveToNext();
+                }
+            }
+            cursor.close();
+        }
+        return variants;
     }
 
     public void deleteTable(String table) {

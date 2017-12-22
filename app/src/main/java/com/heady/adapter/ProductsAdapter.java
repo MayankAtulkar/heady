@@ -1,6 +1,7 @@
 package com.heady.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.DataOb
     private static ProductsAdapter.MyClickListener myClickListener;
     private ArrayList<Product> mDataset;
     private Context context;
+    private int id;
 
     public ProductsAdapter(Context context, ArrayList<Product> myDataset) {
         mDataset = new ArrayList<>();
@@ -50,7 +52,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.DataOb
 
         Log.i("TAG Adap ", mDataset.get(position).getName());
 
-        int id = context.getResources().getIdentifier("ic_launcher_background", "drawable", context.getPackageName());
+        int id = 0;
         switch (mDataset.get(position).getId() % 9) {
             case 0:
                 id = context.getResources().getIdentifier("prod1", "drawable", context.getPackageName());
@@ -85,10 +87,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.DataOb
         }
         holder.img_product.setImageResource(id);
 
-        holder.img_product.setOnClickListener(new View.OnClickListener() {
+        final int finalId = id;
+        holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myClickListener.onProductClick(position, mDataset.get(position).getId());
+                Log.i("TAG adap ", finalId + "");
+                myClickListener.onProductClick(position, mDataset.get(position).getId(), finalId, mDataset.get(position).getName());
             }
         });
     }
@@ -104,17 +108,20 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.DataOb
     }
 
     public interface MyClickListener {
-        void onProductClick(int position, int id);
+        void onProductClick(int position, int id, int drawable, String name);
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
         TextView tv_product_name;
         ImageView img_product;
+        CardView card_view;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             tv_product_name = itemView.findViewById(R.id.tv_product_name);
             img_product = itemView.findViewById(R.id.img_product);
+            card_view = itemView.findViewById(R.id.card_view);
         }
     }
+
 }

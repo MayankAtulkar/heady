@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.heady.activity.R;
@@ -85,10 +86,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Da
         }
         holder.img_category.setImageResource(id);
 
-        holder.img_category.setOnClickListener(new View.OnClickListener() {
+        holder.rl_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myClickListener.onCategoryClick(position, mDataset.get(position).getId());
+                myClickListener.onNavClick(position, mDataset.get(position).getId(), mDataset.get(position).getName());
             }
         });
     }
@@ -104,17 +105,19 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Da
     }
 
     public interface MyClickListener {
-        void onCategoryClick(int position, int id);
+        void onNavClick(int position, int id, String name);
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
         TextView tv_c_name;
         ImageView img_category;
+        RelativeLayout rl_nav;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             tv_c_name = itemView.findViewById(R.id.tv_c_name);
             img_category = itemView.findViewById(R.id.img_category);
+            rl_nav = itemView.findViewById(R.id.rl_nav);
         }
     }
 }

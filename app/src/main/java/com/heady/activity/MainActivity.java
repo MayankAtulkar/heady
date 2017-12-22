@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.heady.adapter.CategoriesAdapter;
@@ -19,6 +19,7 @@ import com.heady.bean.Category;
 import com.heady.bean.EcommResponse;
 import com.heady.db.DatabaseHandler;
 import com.heady.network.RetrofitInterface;
+import com.heady.utils.DividerItemDecoration;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -46,17 +47,30 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Category> categories = new ArrayList<>();
     private CategoriesAdapter categoriesAdapter;
     private NavigationAdapter navigationAdapter;
-    private TextView tv_most_viewed, tv_most_ordered, tv_most_shared;
+    private ImageView iv_most_viewed, iv_most_ordered, iv_most_shared;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private CategoriesAdapter.MyClickListener cardClickHandler = new CategoriesAdapter.MyClickListener() {
 
         @Override
-        public void onCategoryClick(int position, int id) {
+        public void onCategoryClick(int position, int id, String name) {
             Intent intent = new Intent(MainActivity.this, ActivityProducts.class);
             Bundle bundle = new Bundle();
             bundle.putInt("categoryId", id);
+            bundle.putString("name", name);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    };
+    private NavigationAdapter.MyClickListener navClickHandler = new NavigationAdapter.MyClickListener() {
+
+        @Override
+        public void onNavClick(int position, int id, String name) {
+            Intent intent = new Intent(MainActivity.this, ActivityProducts.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("categoryId", id);
+            bundle.putString("name", name);
             intent.putExtras(bundle);
             startActivity(intent);
         }
@@ -71,29 +85,29 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.all_recycler_view);
         navList = findViewById(R.id.navList);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        tv_most_viewed = findViewById(R.id.tv_most_viewed);
-        tv_most_ordered = findViewById(R.id.tv_most_ordered);
-        tv_most_shared = findViewById(R.id.tv_most_shared);
+        iv_most_viewed = findViewById(R.id.iv_most_viewed);
+        iv_most_ordered = findViewById(R.id.iv_most_ordered);
+        iv_most_shared = findViewById(R.id.iv_most_shared);
 
         ((MyApplication) getApplication()).getEcommComponent().inject(this);
 
         fillDatabase();
 
-        tv_most_viewed.setOnClickListener(new View.OnClickListener() {
+        iv_most_viewed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intentProduct(1);
             }
         });
 
-        tv_most_ordered.setOnClickListener(new View.OnClickListener() {
+        iv_most_ordered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intentProduct(2);
             }
         });
 
-        tv_most_shared.setOnClickListener(new View.OnClickListener() {
+        iv_most_shared.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intentProduct(3);
@@ -180,29 +194,18 @@ public class MainActivity extends AppCompatActivity {
 
         categoriesAdapter = new CategoriesAdapter(MainActivity.this, categories);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
+        recyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, R.drawable.divider));
         recyclerView.setAdapter(categoriesAdapter);
         categoriesAdapter.setOnItemClickListener(cardClickHandler);
     }
-
-    /*private NavigationAdapter.MyClickListener cardClickHandler = new NavigationAdapter().MyClickListener() {
-
-        @Override
-        public void onCategoryClick(int position, int id) {
-            Intent intent = new Intent(MainActivity.this, ActivityProducts.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt("categoryId", id);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    };*/
 
     private void setNavigationDrawer() {
         navigationAdapter = new NavigationAdapter(MainActivity.this, categories);
         navList.setHasFixedSize(true);
         navList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         navList.setAdapter(navigationAdapter);
-//        navigationAdapter.setOnItemClickListener(cardClickHandler);
+        navigationAdapter.setOnItemClickListener(navClickHandler);
     }
 
 //    @Override
