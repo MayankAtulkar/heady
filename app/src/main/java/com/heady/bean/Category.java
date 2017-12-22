@@ -12,6 +12,17 @@ public class Category {
     ArrayList<Product> products;
     ArrayList<Integer> child_categories;
 
+    public Category(int id, String name, ArrayList<Product> products, ArrayList<Integer> child_categories) {
+        this.id = id;
+        this.name = name;
+        this.products = products;
+        this.child_categories = child_categories;
+    }
+
+    public Category() {
+
+    }
+
     public int getId() {
         return id;
     }

@@ -15,16 +15,16 @@ import com.heady.bean.Category;
 import java.util.ArrayList;
 
 /**
- * Created by DELL on 12/5/2017.
+ * Created by trupay on 22-12-2017.
  */
 
-public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.DataObjectHolder> {
+public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.DataObjectHolder> {
 
-    private static CategoriesAdapter.MyClickListener myClickListener;
+    private static NavigationAdapter.MyClickListener myClickListener;
     private ArrayList<Category> mDataset;
     private Context context;
 
-    public CategoriesAdapter(Context context, ArrayList<Category> myDataset) {
+    public NavigationAdapter(Context context, ArrayList<Category> myDataset) {
         mDataset = new ArrayList<>();
         this.context = context;
         for (Category category : myDataset) {
@@ -33,20 +33,20 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Da
         }
     }
 
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        CategoriesAdapter.myClickListener = myClickListener;
+    public void setOnItemClickListener(NavigationAdapter.MyClickListener myClickListener) {
+        NavigationAdapter.myClickListener = myClickListener;
     }
 
     @Override
-    public CategoriesAdapter.DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_category, parent, false);
-        return new CategoriesAdapter.DataObjectHolder(view);
+    public NavigationAdapter.DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_item_view, parent, false);
+        return new NavigationAdapter.DataObjectHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final CategoriesAdapter.DataObjectHolder holder, final int position) {
+    public void onBindViewHolder(final NavigationAdapter.DataObjectHolder holder, final int position) {
 
-        holder.tv_category_name.setText(mDataset.get(position).getName());
+        holder.tv_c_name.setText(mDataset.get(position).getName());
 
         Log.i("TAG Adap ", mDataset.get(position).getName());
 
@@ -83,7 +83,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Da
                 id = context.getResources().getIdentifier("ic_launcher_background", "drawable", context.getPackageName());
                 break;
         }
-
         holder.img_category.setImageResource(id);
 
         holder.img_category.setOnClickListener(new View.OnClickListener() {
@@ -109,14 +108,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Da
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
-        TextView tv_category_name;
+        TextView tv_c_name;
         ImageView img_category;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            tv_category_name = itemView.findViewById(R.id.tv_category_name);
+            tv_c_name = itemView.findViewById(R.id.tv_c_name);
             img_category = itemView.findViewById(R.id.img_category);
         }
     }
-
 }

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Heady.iml" filepath="$PROJECT_DIR$/Heady.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/heady.iml" filepath="$PROJECT_DIR$/heady.iml" />
+      <module fileurl="file://E:\Mayank\Android\Heady\heady.iml" filepath="E:\Mayank\Android\Heady\heady.iml" />
     </modules>
   </component>
 </project>

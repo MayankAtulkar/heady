@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Heady</string>
+    <string name="rupee">\u20B9</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
 </resources>
